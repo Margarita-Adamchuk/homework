@@ -2,10 +2,10 @@
 
 board = list(range(1, 10))
 def draw_board(board):
-    print("--+---+---")
+    print("---+---+---")
     for i in range(3):
         print(f"{board[0+i*3]} | {board[1+i*3]} | {board[2+i*3]}")
-        print("--+---+---")
+        print("---+---+---")
 
 def play(XO):
     correct = False
@@ -16,7 +16,10 @@ def play(XO):
         except ValueError:
             print("Некоректный ввод. Вы уверены что ввели число?")
             continue
-        if 9 >= answer >= 1:
+        if answer == 0:
+            board.append(0)
+            break
+        elif 9 >= answer >= 1:
             if str(board[answer-1]) not in "XO":
                 board[answer-1] = XO
                 correct = True
@@ -25,6 +28,7 @@ def play(XO):
                 continue
         else:
             print("Некоректный ввод. Нужно вводить числа от 1 до 9")
+
 
 def chek_win(board):
     win_cod = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
@@ -38,7 +42,11 @@ def main(board):
     win = False
     while not win:
         draw_board(board)
-        if counter %2 == 0:
+        for item in board:
+            if item == 0:
+                print("!!!Конец игры!!!")
+                return
+        if counter % 2 == 0:
             play("X")
         else:
             play("O")
@@ -51,7 +59,6 @@ def main(board):
         if counter == 9:
             print("Ничья!")
             break
-    draw_board(board)
 
 main(board)
 
